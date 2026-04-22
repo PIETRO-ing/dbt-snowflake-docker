@@ -1,4 +1,4 @@
-# dbt - Snowflake - Docker
+# MegaMart project using: dbt - Snowflake - Docker
 
 important info after running dbt init:
 - `11:26:43  Using profiles dir at /root/.dbt`
