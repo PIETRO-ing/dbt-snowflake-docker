@@ -1,0 +1,13 @@
+data_pipeline:
+  outputs:
+    dev:
+      account: svpgwfr-hcb22651
+      database: dbt_db
+      password: KDggtkjc1981!!
+      role: dbt_role
+      schema: dbt_schema
+      threads: 10
+      type: snowflake
+      user: pbln
+      warehouse: dbt_wh
+  target: dev

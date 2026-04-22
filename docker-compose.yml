@@ -4,14 +4,13 @@ services:
    container_name: dbt_snowflake
    volumes:
     - .:/app
+    - ./app/dbt_pipeline/.dbt/:/root/.dbt
    working_dir: /app
    stdin_open: true
    tty: true
-   command: sleep infinity
+   command: bash -c "apt update && apt install -y git && sleep infinity"
    environment:
     DBT_SNOWFLAKE_ACCOUNT: $(SNOWFLAKE_ACCOUNT)
     DBT_SNOWFLAKE_USER: $(SNOWFLAKE_USER)
     DBT_SNOWFLAKE_PASSWORD: $(SNOWFLAKE_PASSWORD)
-    #DBT_SNOWFLAKE_WAREHOUSE: $(SNOWFLAKE_WAREHOUSE)
-    #DBT_SNOWFLAKE_DATABASE: $(SNOWFLAKE_DATABASE)
-    #DBT_SNOWFLAKE_SCHEMA: $(SNOWFLAKE_SCHEMA)
+   
