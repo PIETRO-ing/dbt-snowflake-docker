@@ -1,2 +1,2 @@
 .env
-.dbt
+app/dbt_pipeline/.dbt
