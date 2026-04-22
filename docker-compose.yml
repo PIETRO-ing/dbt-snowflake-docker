@@ -4,7 +4,7 @@ services:
    container_name: dbt_snowflake
    volumes:
     - .:/app
-    - ./app/dbt_pipeline/.dbt/:/root/.dbt
+    - ./.dbt:/root/.dbt
    working_dir: /app
    stdin_open: true
    tty: true

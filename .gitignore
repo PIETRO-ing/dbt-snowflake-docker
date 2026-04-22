@@ -1,3 +1,5 @@
 .env
 app/dbt_pipeline/.dbt
 data_pipeline/.dbt
+/app/.dbt
+.dbt
