@@ -1,3 +1,9 @@
+{{
+  config(
+    schema = 'megamart_schema'
+    )
+}}
+
 select 
     *
 from 
