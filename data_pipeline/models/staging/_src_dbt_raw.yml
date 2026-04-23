@@ -1,12 +1,62 @@
 sources:
   - name: source
     database: dbt_raw
-    schema: source 
+    schema: source
     tables:
       - name: dim_customer
+        columns:
+          - name: customer_sk
+            tests:
+              - unique
+              - not_null
+          - name: customer_code
+            tests:
+              - unique
+              - not_null
+
       - name: dim_date
+        columns: 
+          - name: date_sk
+            tests: 
+              - unique
+              - not_null
+
       - name: dim_product
+        columns:
+          - name: product_sk
+            tests:
+              - unique
+              - not_null
+          - name: product_code
+            tests:
+              - unique
+              - not_null
+
       - name: dim_store
+        columns:
+          - name: store_sk
+            tests:
+              - unique
+              - not_null
+
+          - name: store_name
+            tests:
+              - accepted_values:
+                  values: ['MegaMart Manhattan', 'MegaMart Brooklyn', 'MegaMart Austin', 'MegaMart San Jose', 'MegaMart Toronto']
+
       - name: fact_returns
+        columns: 
+          - name: sales_id
+            tests: 
+              - unique
+              - not_null
+
       - name: fact_sales
+        columns:
+          - name: store_sk
+            tests:
+              - not_null
+              - relationships:
+                  to: ref('dim_store')
+                  field: store_sk
         
