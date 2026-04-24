@@ -54,11 +54,12 @@ sources:
       - name: fact_sales
         columns:
           - name: store_sk
-            tests:
+            data_tests:
               - not_null
               - relationships:
-                  to: ref('dim_store')
-                  field: store_sk
+                  arguments:
+                    to: ref('stg_store')
+                    field: store_sk
           - name: gross_amount
             data_tests:
               - generic_non_negative
