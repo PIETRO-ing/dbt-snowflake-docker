@@ -6,48 +6,48 @@ sources:
       - name: dim_customer
         columns:
           - name: customer_sk
-            tests:
+            data_tests:
               - unique
               - not_null
           - name: customer_code
-            tests:
+            data_tests:
               - unique
               - not_null
 
       - name: dim_date
         columns: 
           - name: date_sk
-            tests: 
+            data_tests: 
               - unique
               - not_null
 
       - name: dim_product
         columns:
           - name: product_sk
-            tests:
+            data_tests:
               - unique
               - not_null
           - name: product_code
-            tests:
+            data_tests:
               - unique
               - not_null
 
       - name: dim_store
         columns:
           - name: store_sk
-            tests:
+            data_tests:
               - unique
               - not_null
 
           - name: store_name
-            tests:
+            data_tests:
               - accepted_values:
                   values: ['MegaMart Manhattan', 'MegaMart Brooklyn', 'MegaMart Austin', 'MegaMart San Jose', 'MegaMart Toronto']
 
       - name: fact_returns
         columns: 
           - name: sales_id
-            tests: 
+            data_tests: 
               - unique
               - not_null
 
