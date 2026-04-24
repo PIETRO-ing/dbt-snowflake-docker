@@ -59,4 +59,7 @@ sources:
               - relationships:
                   to: ref('dim_store')
                   field: store_sk
+          - name: gross_amount
+            data_tests:
+              - generic_non_negative
         
