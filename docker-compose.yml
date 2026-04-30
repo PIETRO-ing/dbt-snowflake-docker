@@ -8,9 +8,5 @@ services:
    working_dir: /app
    stdin_open: true
    tty: true
-   command: bash -c "apt update && apt install -y git && sleep infinity"
-   environment:
-    DBT_SNOWFLAKE_ACCOUNT: $(SNOWFLAKE_ACCOUNT)
-    DBT_SNOWFLAKE_USER: $(SNOWFLAKE_USER)
-    DBT_SNOWFLAKE_PASSWORD: $(SNOWFLAKE_PASSWORD)
+   command: bash -c "apt update && apt install -y git && git config --global --add safe.directory /app && sleep infinity
    
