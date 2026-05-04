@@ -127,4 +127,3 @@ SHOW GRANTS ON SCHEMA dbt_db.public;
 
 
 
-
