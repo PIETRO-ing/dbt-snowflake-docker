@@ -1,29 +1,28 @@
 use role accountadmin;
 use role sysadmin;
 
-create or replace warehouse dbt_wh 
+create or replace warehouse megamart_wh 
 with 
 warehouse_size = 'XSMALL' 
 warehouse_type = 'STANDARD' 
 auto_suspend = 60 --600 seconds/10 mins
 auto_resume = TRUE;
 
-use warehouse dbt_wh;
+use warehouse megamart_wh;
+create or replace database megamart_db;
 
-create or replace database dbt_db;
+drop schema megamart_db.public;
+create schema megamart_db.megamart_schema;
 
-drop schema dbt_db.public;
-create schema dbt_db.dbt_schema;
+create or replace database megamart_raw;
+create or replace stage megamart_raw.public.my_stage;
 
-create or replace database dbt_raw;
-create or replace stage dbt_raw.public.my_stage;
-
-create or replace file format dbt_raw.public.csv_ff
+create or replace file format megamart_raw.public.csv_ff
 type = CSV
 skip_header = 1
 trim_space = true;
 
-list @dbt_raw.public.my_stage;
+list @megamart_raw.public.my_stage;
 
 select $1, $2, $3, $4, $5, $6, $7, $8, $9
 from @dbt_raw.public.my_stage/dim_customer.csv
@@ -65,14 +64,14 @@ create or replace table dbt_raw.public.dim_date(
     is_quarter_start boolean
 );
 
-list @dbt_raw.public.my_stage;
+list @megamart_raw.public.my_stage;
 
-copy into dbt_raw.public.dim_date
-from @dbt_raw.public.my_stage
+copy into megamart_raw.public.dim_date
+from @megamart_raw.public.my_stage
 files = ('dim_date.csv')
-file_format =  (format_name = dbt_raw.public.csv_ff);
+file_format =  (format_name = megamart_raw.public.csv_ff);
 
-create or replace table dbt_raw.public.dim_store(
+create or replace table megamart_raw.public.dim_store(
     store_sk number,
     store_code varchar,
     store_name varchar,
@@ -84,12 +83,12 @@ create or replace table dbt_raw.public.dim_store(
     sq_ft number
 );
 
-copy into dbt_raw.public.dim_store
-from @dbt_raw.public.my_stage
+copy into megamart_raw.public.dim_store
+from @megamart_raw.public.my_stage
 files = ('dim_store.csv')
-file_format = (format_name = dbt_raw.public.csv_ff);
+file_format = (format_name = megamart_raw.public.csv_ff);
 
-create or replace table dbt_raw.public.fact_returns(
+create or replace table megamart_raw.public.fact_returns(
     sales_id number,
     date_sk number,
     store_sk number,
@@ -99,31 +98,34 @@ create or replace table dbt_raw.public.fact_returns(
     refund_amount number
 );
 
-copy into dbt_raw.public.fact_returns
-from @dbt_raw.public.my_stage
+copy into megamart_raw.public.fact_returns
+from @megamart_raw.public.my_stage
 files = ('fact_returns.csv')
-file_format = (format_name = dbt_raw.public.csv_ff);
+file_format = (format_name = megamart_raw.public.csv_ff);
 
 select * from fact_sales;
 
 -- create dbt_role
 use role accountadmin;
-create role dbt_role;
-show grants on warehouse dbt_wh;
-grant usage on warehouse dbt_wh to role dbt_role;
-grant role dbt_role to user pbln;
-grant all on database dbt_db to role dbt_role;
+create role megamart_role;
+show grants on warehouse megamart_wh;
+grant usage on warehouse megamart_wh to role megamart_role;
+grant role megamart_role to user pbln81;
+grant all on database megamart_db to role megamart_role;
 
-grant all on database dbt_raw to role dbt_role;
-GRANT ALL ON SCHEMA dbt_raw.public TO ROLE dbt_role;
-GRANT ALL ON SCHEMA dbt_db.dbt_schema TO ROLE dbt_role;
+grant all on database megamart_raw to role megamart_role;
+GRANT ALL ON SCHEMA megamart_raw.public TO ROLE megamart_role;
+GRANT ALL ON SCHEMA megamart_db.megamart_schema TO ROLE megamart_role;
       
 
-use role dbt_role;
+use role megamart_role;
 
-SHOW GRANTS ON SCHEMA dbt_raw.public;
-SHOW GRANTS ON SCHEMA dbt_db.public;
+SHOW GRANTS ON SCHEMA megamart_raw.public;
+SHOW GRANTS ON SCHEMA megamart_db.megamart_schema;
 
+
+-- moving tables
+CREATE TABLE source.dim_customer CLONE megamart_raw.public.dim_customer COPY GRANTS;   
 
 
 
