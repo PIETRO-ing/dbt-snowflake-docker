@@ -1,7 +1,7 @@
 sources:
-  - name: source
-    database: dbt_raw
-    schema: source
+  - name: public
+    database: megamart_raw
+    schema: public
     tables:
       - name: dim_customer
         columns:

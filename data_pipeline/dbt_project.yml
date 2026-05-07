@@ -36,8 +36,8 @@ models:
       +materialized: table
       +schema: megamart
       #+on_schema_change: replace
-      +snowflake_warehouse: dbt_wh
+      +snowflake_warehouse: megamart_wh
     marts:
       +materialized: table
       #+on_schema_change: replace
-      +snowflake_warehouse: dbt_wh
+      +snowflake_warehouse: megamart_wh

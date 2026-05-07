@@ -1,4 +1,4 @@
 select 
     *
 from 
-    {{ source('source', 'fact_sales') }}
+    {{ source('public', 'fact_sales') }}

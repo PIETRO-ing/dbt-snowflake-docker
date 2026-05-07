@@ -1,4 +1,4 @@
 select 
     *
 from 
-    {{ source('source', 'dim_customer') }}
+    {{ source('public', 'dim_customer') }}
