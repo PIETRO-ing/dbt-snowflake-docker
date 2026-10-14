@@ -25,10 +25,10 @@ trim_space = true;
 list @megamart_raw.public.my_stage;
 
 select $1, $2, $3, $4, $5, $6, $7, $8, $9
-from @dbt_raw.public.my_stage/dim_customer.csv
-(file_format => dbt_raw.public.csv_ff);
+from @megamart_raw.public.my_stage/dim_customer.csv
+(file_format => megamart_raw.public.csv_ff);
 
-create or replace table dbt_raw.public.dim_customer(
+create or replace table megamart_raw.public.dim_customer(
 customer_sk number,
 customer_code varchar,
 first_name varchar,
@@ -40,14 +40,14 @@ loyalty_tier varchar,
 signup_date date
 );
 
-copy into dbt_raw.public.dim_customer
-from @dbt_raw.public.my_stage
+copy into megamart_raw.public.dim_customer
+from @megamart_raw.public.my_stage
 files = ('dim_customer.csv')
-file_format = (format_name = dbt_raw.public.csv_ff);
+file_format = (format_name = 'megamart_raw.public.csv_ff');
 
-select * from dbt_raw.public.dim_customer;
+select * from megamart_raw.public.dim_customer;
 
-create or replace table dbt_raw.public.dim_date(
+create or replace table megamart_raw.public.dim_date(
     date_sk number,
     date date,
     day number,
@@ -69,7 +69,7 @@ list @megamart_raw.public.my_stage;
 copy into megamart_raw.public.dim_date
 from @megamart_raw.public.my_stage
 files = ('dim_date.csv')
-file_format =  (format_name = megamart_raw.public.csv_ff);
+file_format =  (format_name = 'megamart_raw.public.csv_ff');
 
 create or replace table megamart_raw.public.dim_store(
     store_sk number,
@@ -86,7 +86,9 @@ create or replace table megamart_raw.public.dim_store(
 copy into megamart_raw.public.dim_store
 from @megamart_raw.public.my_stage
 files = ('dim_store.csv')
-file_format = (format_name = megamart_raw.public.csv_ff);
+file_format = (format_name = 'megamart_raw.public.csv_ff');
+
+select * from megamart_raw.public.dim_store;
 
 create or replace table megamart_raw.public.fact_returns(
     sales_id number,
@@ -101,7 +103,13 @@ create or replace table megamart_raw.public.fact_returns(
 copy into megamart_raw.public.fact_returns
 from @megamart_raw.public.my_stage
 files = ('fact_returns.csv')
-file_format = (format_name = megamart_raw.public.csv_ff);
+file_format = (format_name = 'megamart_raw.public.csv_ff');
+
+select * from megamart_raw.public.fact_returns;
+
+list @megamart_raw.public.my_stage;
+
+-- the other two tables are created with the ui
 
 select * from fact_sales;
 
@@ -110,7 +118,7 @@ use role accountadmin;
 create role megamart_role;
 show grants on warehouse megamart_wh;
 grant usage on warehouse megamart_wh to role megamart_role;
-grant role megamart_role to user pbln81;
+grant role megamart_role to user pbln;
 grant all on database megamart_db to role megamart_role;
 
 grant all on database megamart_raw to role megamart_role;
