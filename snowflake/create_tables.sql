@@ -126,8 +126,7 @@ GRANT ALL ON SCHEMA megamart_raw.public TO ROLE megamart_role;
 GRANT ALL ON SCHEMA megamart_db.megamart_schema TO ROLE megamart_role;
       
 
-use role megamart_role;
-
+use role megamart_role;   
 SHOW GRANTS ON SCHEMA megamart_raw.public;
 SHOW GRANTS ON SCHEMA megamart_db.megamart_schema;
 
@@ -136,4 +135,5 @@ SHOW GRANTS ON SCHEMA megamart_db.megamart_schema;
 CREATE TABLE source.dim_customer CLONE megamart_raw.public.dim_customer COPY GRANTS;   
 
 
-
+-- 
+show warehouses;
